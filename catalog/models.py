@@ -24,6 +24,10 @@ class Book(models.Model):
     def get_absolute_url(self):
         return reverse('book-detail', args=[str(self.id)])
 
+    def display_genre(self):
+        return ', '.join([genre.name for genre in self.genre.all()])
+    display_genre.short_description = 'Genre'
+
 
 class BookInstance(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4(), help_text="Unique ID for this particular book "
@@ -45,6 +49,10 @@ class BookInstance(models.Model):
     def __str__(self):
         return f'{self.book.author.last_name} : {self.book.title}'
 
+    def show_id(self):
+        return f'{str(self.id)[0:4]}'
+    show_id.short_description = 'id'
+
 
 class Author(models.Model):
     first_name = models.CharField(max_length=100)
@@ -56,4 +64,4 @@ class Author(models.Model):
         return reverse('author-detail', args=[str(self.id)])
 
     def __str__(self):
-        return f'{self.last_name}, {self.first_name} '
+        return f'{self.last_name}, {self.first_name}'
