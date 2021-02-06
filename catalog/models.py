@@ -30,7 +30,7 @@ class BookInstance(models.Model):
                                                                             "across whole library")
     book = models.ForeignKey('Book', on_delete=models.SET_NULL, null=True)
     imprint = models.CharField(max_length=200)
-    due_back = models.DateField(blank=True)
+    due_back = models.DateField(blank=True, null=True)
     LOAN_STATUS = (
         ('m', 'Maintenance'),
         ('o', 'On loan'),
@@ -43,7 +43,7 @@ class BookInstance(models.Model):
         ordering = ["due_back"]
 
     def __str__(self):
-        return f'{self.id} : {self.book.name}'
+        return f'{self.book.author.last_name} : {self.book.title}'
 
 
 class Author(models.Model):
@@ -56,4 +56,4 @@ class Author(models.Model):
         return reverse('author-detail', args=[str(self.id)])
 
     def __str__(self):
-        return f'{self.first_name} {self.last_name}'
+        return f'{self.last_name}, {self.first_name} '
